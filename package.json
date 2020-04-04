@@ -1,0 +1,8 @@
+{
+  "name": "QuantizeServer",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://github.com/abstractultra/QuantizeServer",
+  "author": "AbstractUltra",
+  "license": "MIT"
+}
