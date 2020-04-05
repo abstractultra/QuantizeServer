@@ -1,35 +1,28 @@
 const express = require('express');
 const app = express();
 const csv = require('csvtojson');
-const cheerio = require('cheerio');
-const got = require('got');
 
-async function getData() {
-    const jsonObj = await csv().fromFile("UiPathOutput.csv");
-    let dataArr = [];
+async function convertToJSON() {
+    const jsonObj = await csv().fromFile("UIPATH2.csv");
+    let returnObj = [];
     for (let i = 0; i < jsonObj.length; i++) {
-        pageURL = jsonObj[i].URL;
-        const page = await got("https://www.walmart.ca/" + pageURL);
-        const $ = await cheerio.load(page);
-        console.log($(".ervhxpq1").eq(0).attr("src"));
-        let data = {
-            id: Math.floor(Math.random(3452)*355),
-            name: jsonObj[i].Name,
-            stock: $(".e5qqw235").eq(0).attr("max"),
-            price: parseFloat($(".esdkp3p0").eq(0).text().replace("$","")),
+        const obj = jsonObj[i];
+        const data = {
+            id: Math.floor(Math.random(34534)*1000),
+            name: obj.name,
+            price: parseFloat(obj.price.replace(/[^0-9\.]+/g, '')),
+            stock: 4,
+            imageUrl: "https:" + obj.imageUrl,
             type: "Hand Sanitizer",
-            imageUrl: $(".ervhxpq1").eq(0).attr("src"),
-            seller: "Walmart",
+            seller: "Walmart"
         }
-        dataArr.push(data);
+        returnObj.push(data);
     }
-    return dataArr;
+    return returnObj;
 }
 
 app.get('/get_item_data', (req, res) => {
-    getData().then(dataArr => {
-        res.end(JSON.stringify(dataArr));
-    });
+    convertToJSON().then(jsonObj => res.end(JSON.stringify(jsonObj)));
 });
 
-app.listen(3000);
+app.listen(3000 || process.env.PORT);
