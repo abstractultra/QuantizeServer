@@ -25,4 +25,4 @@ app.get('/get_item_data', (req, res) => {
     convertToJSON().then(jsonObj => res.end(JSON.stringify(jsonObj)));
 });
 
-app.listen(3000 || process.env.PORT);
+app.listen(process.env.PORT || 3000);
